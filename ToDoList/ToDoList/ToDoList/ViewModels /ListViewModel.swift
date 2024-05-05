@@ -7,6 +7,16 @@
 
 import Foundation
 
+/*
+ CRUD FUNCTIONS
+ 
+ Create
+ Read
+ Update
+ Delete
+ 
+ */
+
 class ListViewModel: ObservableObject {
     @Published var items: [ItemModel] = []
     
@@ -18,8 +28,8 @@ class ListViewModel: ObservableObject {
             ItemModel(title: " This is the first Title", isCompleted: false),
             ItemModel(title: "This is the second Title", isCompleted: true),
             ItemModel(title: "third", isCompleted: false)]
-    items.append(contentsOf: newItems)
-}
+        items.append(contentsOf: newItems)
+    }
     func deleteItem(indexSet: IndexSet){
         items.remove(atOffsets: indexSet)
     }
@@ -29,5 +39,14 @@ class ListViewModel: ObservableObject {
     func addItem(title: String) {
         let newItem = ItemModel(title: title, isCompleted: false)
         items.append(newItem)
+    }
+    func updateItem(item: ItemModel){
+//        let index = items.firstIndex { (existingItem) -> Bool in
+//            return existingItem.id == item.id
+//        }
+        
+        if let index = items.firstIndex(where: {$0.id == item.id}) {
+            items[index] = item.updateCompletion()
+        }
     }
 }
